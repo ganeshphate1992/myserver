@@ -1,8 +1,13 @@
-var { getStudentDAO, regStudentDAO } = require('../dao/studentDAO')
+var { getStudentDAO, regStudentDAO, loginDAO} = require('../dao/studentDAO')
 async function regStudentService(data) {
     console.log("regStudentService")
     var result = await regStudentDAO(data);
     console.log('service recive the result from dao send to controller')
+    return result;
+}
+
+async function loginService(data) {
+    const result = await loginDAO(data)
     return result;
 }
 
@@ -19,6 +24,7 @@ async function getStudentService() {
 
 module.exports = {
     regStudentService,
-    getStudentService
+    getStudentService,
+    loginService
 }
 
