@@ -1,6 +1,7 @@
 var express = require('express')
 var router = express.Router();
-var { getStudentService, regStudentService, loginService } = require('../services/studentService')
+var { regStudentService, loginService, getStudentService, updateStudentService, deleteStudentService } = require('../services/studentService');
+const validateToken = require('../../common/validateToken');
 
 // http://localhost:2020/std/reg-std, post
 router.post("/reg-std", async function (req, res, next) {// req received
@@ -25,12 +26,37 @@ router.post("/login", async function (req, res, next) {
 })
 
 // http://localhost:2020/std/get-std, get
-router.get("/get-std", async function (req, res, next) { // request received
+router.get("/get-std", 
+    validateToken,
+    async function (req, res, next) { // request received
     console.log("get-std controller")
     // take the data from req 
     var result = await getStudentService();
     res.send(result)
 })
+
+// http://localhost:2020/std/update-std, put
+router.put(
+    "/update-std",
+    validateToken,
+    async function (req, res, next) {
+        var { id } = req.query;
+        var { data } = req.body;
+        var result = await updateStudentService(id, data);
+        res.send(result)
+    }
+)
+
+// http://localhost:2020/std/delete-std, delet
+router.delete(
+    '/delete-std/:id',
+    validateToken,
+    async function (req, res, next) {
+        var { id } = req.params
+        var result = await deleteStudentService(id)
+        res.send(result)
+    }
+)
 
 
 module.exports = router;
