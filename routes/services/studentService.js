@@ -1,5 +1,5 @@
 var jwt = require('jsonwebtoken')
-var { getStudentDAO, regStudentDAO, loginDAO, updateStudentDAO, deleteStudentDAO} = require('../dao/studentDAO')
+var { getStudentDAO, regStudentDAO, loginDAO, updateStudentDAO, deleteStudentDAO, getStdByIdDAO} = require('../dao/studentDAO')
 
 async function regStudentService(data) {
     console.log("regStudentService")
@@ -38,12 +38,17 @@ async function deleteStudentService(id) {
     return result;
 }
 
+async function getStdByIdService(id) {
+    var result = await getStdByIdDAO(id)
+    return result;
+}
 
 module.exports = {
     regStudentService,
     getStudentService,
     loginService,
     updateStudentService,
-    deleteStudentService
+    deleteStudentService,
+    getStdByIdService
 }
 
